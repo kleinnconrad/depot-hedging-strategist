@@ -8,6 +8,8 @@ on:
 jobs:
   run-hedger:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -27,3 +29,11 @@ jobs:
           CURRENT_DEPOT_JSON: ${{ secrets.CURRENT_DEPOT_JSON }}
         run: |
           python main.py
+          
+      - name: Commit and push results
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/results.json
+          git commit -m "chore: update optimal portfolio weights" || echo "No changes to commit"
+          git push
