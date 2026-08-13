@@ -31,17 +31,15 @@ def main():
             symbol = item.get("stock_name")
             pred = item.get("final_prediction")
             if symbol:
-                if pred == "UP":
+                if pred == "UP_FINAL_BUY":
                     expected_returns_dict[symbol] = expected_return_up
-                else:
-                    expected_returns_dict[symbol] = expected_return_not_up
     else:
         logger.warning("No 'predictions' key found in fetched data.")
 
-    # Merge depot symbols if not in predictions
+    # Merge depot symbols if not in expected_returns_dict
     for symbol in depot.keys():
         if symbol not in expected_returns_dict:
-            expected_returns_dict[symbol] = 0.0
+            expected_returns_dict[symbol] = expected_return_not_up
             
     # Add hedging assets if not present
     for asset in hedging_assets:
@@ -76,6 +74,25 @@ def main():
     print(f"\nTotal Weight: {total_weight:.2%}")
     expected_portfolio_return = optimal_weights.T @ expected_returns.values
     print(f"Expected Portfolio Return: {expected_portfolio_return:.2%}")
+
+    # 5. Save Results to JSON
+    import json
+    from pathlib import Path
+    
+    data_dir = Path("data")
+    data_dir.mkdir(exist_ok=True)
+    
+    results = {
+        "weights": optimal_weights.to_dict(),
+        "total_weight": float(total_weight),
+        "expected_return": float(expected_portfolio_return)
+    }
+    
+    results_path = data_dir / "results.json"
+    with open(results_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=4)
+        
+    logger.info(f"Results successfully saved to {results_path}")
 
 if __name__ == "__main__":
     main()
