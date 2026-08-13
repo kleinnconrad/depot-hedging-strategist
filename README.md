@@ -51,7 +51,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
    ```
    When executed via GitHub Actions, the `CURRENT_DEPOT_JSON` environment variable is securely injected from the repository's GitHub Secrets.
 
-4. **Results Export (Private Gist):**
+4. **Results Export:**
    To keep your financial portfolio data private while hosting this algorithm in a public repository, the GitHub Action automatically exports the output (`results.json`) to a Secret GitHub Gist.
    To configure this:
    - Generate a GitHub Personal Access Token (PAT) with the `gist` scope.
