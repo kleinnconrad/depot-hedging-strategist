@@ -1,18 +1,31 @@
 {
+    "timestamp": "2026-08-13T08:42:19.304701Z",
+    "settings": {
+        "predictor_url": "https://raw.githubusercontent.com/kleinnconrad/stock-predictor/main/data/processed/full_batch_report.json",
+        "expected_return_up": 0.1,
+        "expected_return_not_up": 0.0,
+        "min_portfolio_return": 0.05,
+        "max_stock_weight": 0.3,
+        "hedging_assets": [
+            "CASH"
+        ],
+        "market_variance": 0.04,
+        "idiosyncratic_variance": 0.02
+    },
     "weights": {
-        "GSC1.DE": 0.004822512811585472,
-        "VNA.DE": 0.07121808872028347,
-        "TKA.DE": 0.0,
-        "2HRA.DE": 0.026199930140140354,
-        "HYQ.DE": 0.07710088527277252,
-        "SYT.DE": 0.001397811259199369,
-        "SAP.DE": 0.058436589265188084,
+        "GSC1.DE": 2.194478862372373e-18,
+        "VNA.DE": 0.07280163996886765,
+        "TKA.DE": 2.194478862372373e-18,
+        "2HRA.DE": 0.025697890906926514,
+        "HYQ.DE": 0.0870922270680415,
+        "SYT.DE": 0.0,
+        "SAP.DE": 0.05784929735810552,
         "F3C.DE": 0.0,
-        "IOS.DE": 0.26082418253083084,
-        "UN0.DE": 0.0,
-        "ALV.DE": 7.073397900191587e-18,
-        "CASH": 0.4999999999999999
+        "IOS.DE": 0.2565589447872586,
+        "UN0.DE": 6.071532165918825e-18,
+        "ALV.DE": 0.0,
+        "CASH": 0.4999999999108003
     },
     "total_weight": 1.0,
-    "expected_return": 0.10000000000000003
+    "expected_return": 0.05000000000891998
 }
