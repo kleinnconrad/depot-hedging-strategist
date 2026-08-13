@@ -1,0 +1,20 @@
+# Portfolio Hedging Engine Settings
+
+# Data Ingestion
+predictor_url: "https://raw.githubusercontent.com/kleinnconrad/stock-predictor/main/data/processed/full_batch_report.json"
+
+# Expected Returns Configuration
+expected_return_up: 0.20
+expected_return_not_up: 0.00
+
+# Optimization Constraints
+min_portfolio_return: 0.10
+max_stock_weight: 0.30
+
+# Hedging Assets (Can reach 100% allocation)
+hedging_assets:
+  - "CASH"
+
+# Risk Metrics Settings
+market_variance: 0.04
+idiosyncratic_variance: 0.02
