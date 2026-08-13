@@ -27,6 +27,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 - `requirements.in`: High-level dependencies.
 - `requirements.txt`: Locked project dependencies (auto-generated via `pip-compile`).
 - `.python-version`: Specifies the Python version for the project (e.g. 3.12).
+- `scripts/`: Standalone utilities (e.g. `update_gist.py` for exporting results).
 
 ## Setup and Execution
 
@@ -42,13 +43,20 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 3. **Execution:** 
    For local execution, provide the current depot state as a JSON string via the `CURRENT_DEPOT_JSON` environment variable in a `.env` file at the root of the repository (you can copy `.env.example` to start):
    ```
-   CURRENT_DEPOT_JSON='{"UN0.DE": 0.5, "ALV.DE": 0.5}'
+   CURRENT_DEPOT_JSON={"UN0.DE": 0.5, "ALV.DE": 0.5}
    ```
    Then simply run:
    ```bash
    python main.py
    ```
    When executed via GitHub Actions, the `CURRENT_DEPOT_JSON` environment variable is securely injected from the repository's GitHub Secrets.
+
+4. **Results Export (Private Gist):**
+   To keep your financial portfolio data private while hosting this algorithm in a public repository, the GitHub Action automatically exports the output (`results.json`) to a Secret GitHub Gist.
+   To configure this:
+   - Generate a GitHub Personal Access Token (PAT) with the `gist` scope.
+   - Add it as a repository secret named `GIST_TOKEN`.
+   - The GitHub pipeline will execute `scripts/update_gist.py` to automatically create or update a Secret Gist named `Depot Hedging Strategist - Optimal Weights`.
 
 ## Algorithm and Logic
 
