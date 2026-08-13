@@ -15,13 +15,14 @@ def main():
     expected_return_not_up = settings.get("expected_return_not_up", 0.00)
     hedging_assets = settings.get("hedging_assets", ["CASH"])
 
+    import sys
     # 1. Ingestion
     try:
         predictions_data = fetch_predictions()
         depot = load_current_depot()
     except Exception as e:
         logger.error(f"Ingestion failed: {e}")
-        return
+        sys.exit(1)
 
     expected_returns_dict = {}
     
