@@ -31,7 +31,9 @@ jobs:
           python main.py
           
       - name: Commit and push results
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update optimal portfolio weights"
-          file_pattern: "data/results.json"
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -f data/results.json
+          git commit -m "chore: update optimal portfolio weights" || echo "No changes to commit"
+          git push origin HEAD:main
