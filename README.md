@@ -1,6 +1,6 @@
 # Depot Hedging Strategist
 
-This repository contains a portfolio hedging engine. It ingests predictions from an external ML model and a current depot state, calculates advanced risk metrics (specifically robust Beta), and executes a Markowitz Mean-Variance optimization to find a portfolio allocation that minimizes variance while guaranteeing an expected return (ROI) of at least 10%.
+This repository contains a portfolio hedging engine. It ingests predictions from an external ML model and a current depot state, calculates advanced risk metrics (specifically robust Beta), and executes a Markowitz Mean-Variance optimization to find a portfolio allocation that minimizes variance while guaranteeing an expected return (ROI) of at least 5%.
 
 ## Table of Contents
 
@@ -87,5 +87,5 @@ The final phase employs the **Markowitz Mean-Variance** framework using SciPy's 
 - **Objective Function:** Minimize the portfolio variance ($W^T \Sigma W$).
 - **Constraints:**
   - The sum of all asset weights (including the `CASH` position) must equal exactly $1.0$ ($100\%$).
-  - The expected portfolio return ($W^T R$) must be greater than or equal to the `min_portfolio_return` threshold (e.g., $10\%$).
+  - The expected portfolio return ($W^T R$) must be greater than or equal to the `min_portfolio_return` threshold (e.g., $5\%$).
 - **Bounds:** Individual stock allocations are capped by `max_stock_weight` to enforce diversification, while hedging assets (like `CASH`) can float up to $1.0$.

@@ -1,20 +1,31 @@
 # Portfolio Hedging Engine Settings
 
 # Data Ingestion
+# The HTTP endpoint where the engine fetches the latest predictions from the external Machine Learning model.
 predictor_url: "https://raw.githubusercontent.com/kleinnconrad/stock-predictor/main/data/processed/full_batch_report.json"
 
 # Expected Returns Configuration
-expected_return_up: 0.20
+# The theoretical Return on Investment (ROI) assigned to stocks that the predictor flags as "UP_FINAL_BUY".
+# The prediction corresponds to a 10% ROI for the next 126 trading days (half a year).
+expected_return_up: 0.10
+# The theoretical ROI assigned to any stocks currently in the depot that were not explicitly recommended.
+# 0.00 assumes these stocks will trade flat over the holding period.
 expected_return_not_up: 0.00
 
 # Optimization Constraints
-min_portfolio_return: 0.10
+# The strict objective floor for the optimizer. The engine is mathematically constrained to yield an expected return of at least this value.
+min_portfolio_return: 0.05
+# The maximum percentage of the total portfolio that can be allocated to a single individual stock to force diversification.
 max_stock_weight: 0.30
 
-# Hedging Assets (Can reach 100% allocation)
+# Hedging Assets
+# Safe-haven assets that are allowed to take up to 100% of the portfolio weight to dilute variance once the min_portfolio_return is met.
 hedging_assets:
   - "CASH"
 
 # Risk Metrics Settings
+# The theoretical variance of the overall market benchmark.
 market_variance: 0.04
+# The theoretical residual variance unique to individual stocks (unrelated to the market).
+# These populate the Single-Index Covariance Matrix: Beta^2 * market_variance + idiosyncratic_variance
 idiosyncratic_variance: 0.02
