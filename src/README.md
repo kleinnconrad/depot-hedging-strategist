@@ -40,8 +40,8 @@ graph TD
         Optimizer["optimizer.py"]
     end
     
-    Ingestion -->|Provides load_settings()| RiskMetrics
-    Ingestion -->|Provides load_settings()| Optimizer
+    Ingestion -->|Provides load_settings| RiskMetrics
+    Ingestion -->|Provides load_settings| Optimizer
     
     RiskMetrics -->|Calculates Covariance Matrix| Optimizer
     
