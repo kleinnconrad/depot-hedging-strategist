@@ -31,19 +31,37 @@ This script performs the core portfolio optimization. It executes a Markowitz Me
 The following diagram illustrates the interactions between the modules:
 
 ```mermaid
-graph TD
-    Settings["config/settings.yaml"] -.-> Ingestion
+sequenceDiagram
+    participant Main as main.py
+    participant Ingestion as src/ingestion.py
+    participant RiskMetrics as src/risk_metrics.py
+    participant Optimizer as src/optimizer.py
+    participant External as External APIs (yfinance, HTTP)
+
+    Note over Main,Ingestion: 1. Data Ingestion
+    Main->>Ingestion: load_settings()
+    Ingestion-->>Main: settings dict
     
-    subgraph src["src directory"]
-        Ingestion["ingestion.py"]
-        RiskMetrics["risk_metrics.py"]
-        Optimizer["optimizer.py"]
+    Main->>Ingestion: fetch_predictions()
+    Ingestion->>External: HTTP GET
+    External-->>Ingestion: JSON predictions
+    Ingestion-->>Main: predictions dict
+    
+    Main->>Ingestion: load_current_depot()
+    Ingestion-->>Main: depot dict
+    
+    Note over Main,RiskMetrics: 2. Risk Metrics Calculation
+    loop For each symbol
+        Main->>RiskMetrics: calculate_adjusted_beta(symbol)
+        RiskMetrics->>External: Fetch Market Data (yf.download)
+        External-->>RiskMetrics: Historical Prices
+        RiskMetrics-->>Main: beta, mcap, benchmark
     end
     
-    Ingestion -->|Provides load_settings| RiskMetrics
-    Ingestion -->|Provides load_settings| Optimizer
+    Main->>RiskMetrics: calculate_covariance_matrix(betas)
+    RiskMetrics-->>Main: cov_matrix
     
-    RiskMetrics -->|Calculates Covariance Matrix| Optimizer
-    
-    Optimizer -->|Produces| Allocation["Optimal Portfolio Allocation"]
+    Note over Main,Optimizer: 3. Portfolio Optimization
+    Main->>Optimizer: optimize_portfolio(expected_returns, cov_matrix)
+    Optimizer-->>Main: optimal_weights
 ```
