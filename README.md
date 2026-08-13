@@ -24,7 +24,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 - `main.py`: Entry point for the pipeline.
 - `requirements.in`: High-level dependencies.
 - `requirements.txt`: Locked project dependencies (auto-generated via `pip-compile`).
-- `.python-version`: Specifies the Python version for the project (e.g. 3.11).
+- `.python-version`: Specifies the Python version for the project (e.g. 3.12).
 
 ## Setup and Execution
 
