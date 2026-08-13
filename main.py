@@ -77,12 +77,15 @@ def main():
 
     # 5. Save Results to JSON
     import json
+    from datetime import datetime
     from pathlib import Path
     
     data_dir = Path("data")
     data_dir.mkdir(exist_ok=True)
     
     results = {
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "settings": settings,
         "weights": optimal_weights.to_dict(),
         "total_weight": float(total_weight),
         "expected_return": float(expected_portfolio_return)
