@@ -1,3 +1,5 @@
+[![Run Hedging Engine](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml/badge.svg)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml)
+
 # Depot Hedging Strategist
 
 This repository contains a portfolio hedging engine. It ingests predictions from an external ML model and a current depot state, calculates advanced risk metrics (specifically robust Beta), and executes a Markowitz Mean-Variance optimization to find a portfolio allocation that minimizes variance while guaranteeing an expected return (ROI) of at least 5%.
