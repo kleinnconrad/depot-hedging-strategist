@@ -106,3 +106,14 @@ def calculate_covariance_matrix(adjusted_betas: dict) -> pd.DataFrame:
                 cov_matrix.loc[i, j] = adjusted_betas[i] * adjusted_betas[j] * market_variance
                 
     return cov_matrix
+
+def calculate_expected_return(beta: float) -> float:
+    """
+    Calculate the expected return using the Capital Asset Pricing Model (CAPM).
+    Formula: E(R) = R_f + Beta * (E(R_m) - R_f)
+    """
+    settings = load_settings()
+    risk_free_rate = settings.get("risk_free_rate", 0.02)
+    expected_market_return = settings.get("expected_market_return", 0.08)
+    
+    return risk_free_rate + beta * (expected_market_return - risk_free_rate)

@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 from src.ingestion import fetch_predictions, load_current_depot, load_settings
-from src.risk_metrics import calculate_adjusted_beta, calculate_covariance_matrix
+from src.risk_metrics import calculate_adjusted_beta, calculate_covariance_matrix, calculate_expected_return
 from src.optimizer import optimize_portfolio
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -11,8 +11,7 @@ def main():
     logger.info("Starting Portfolio Hedging Engine pipeline...")
     
     settings = load_settings()
-    expected_return_up = settings.get("expected_return_up", 0.20)
-    expected_return_not_up = settings.get("expected_return_not_up", 0.00)
+    expected_return_up = settings.get("expected_return_up", 0.10)
     hedging_assets = settings.get("hedging_assets", ["CASH"])
 
     import sys
@@ -24,38 +23,42 @@ def main():
         logger.error(f"Ingestion failed: {e}")
         sys.exit(1)
 
-    expected_returns_dict = {}
+    # 2. Risk Metrics & Expected Returns
+    logger.info("Calculating adjusted Betas and Expected Returns...")
+    
+    symbols_to_process = set(depot.keys())
+    predicted_up_symbols = set()
     
     if "predictions" in predictions_data:
-        pred_list = predictions_data["predictions"]
-        for item in pred_list:
+        for item in predictions_data["predictions"]:
             symbol = item.get("stock_name")
             pred = item.get("final_prediction")
-            if symbol:
-                if pred == "UP_FINAL_BUY":
-                    expected_returns_dict[symbol] = expected_return_up
+            if symbol and pred == "UP_FINAL_BUY":
+                symbols_to_process.add(symbol)
+                predicted_up_symbols.add(symbol)
     else:
         logger.warning("No 'predictions' key found in fetched data.")
-
-    # Merge depot symbols if not in expected_returns_dict
-    for symbol in depot.keys():
-        if symbol not in expected_returns_dict:
-            expected_returns_dict[symbol] = expected_return_not_up
-            
-    # Add hedging assets if not present
-    for asset in hedging_assets:
-        if asset not in expected_returns_dict:
-            expected_returns_dict[asset] = 0.0
         
-    expected_returns = pd.Series(expected_returns_dict)
-    
-    # 2. Risk Metrics
-    logger.info("Calculating adjusted Betas...")
+    for asset in hedging_assets:
+        symbols_to_process.add(asset)
+        
     adjusted_betas = {}
-    for symbol in expected_returns.index:
+    expected_returns_dict = {}
+    
+    for symbol in symbols_to_process:
         beta, mcap, bench = calculate_adjusted_beta(symbol)
         adjusted_betas[symbol] = beta
         logger.info(f"{symbol} - Adjusted Beta: {beta:.4f} (Index: {bench})")
+        
+        if symbol in predicted_up_symbols:
+            expected_returns_dict[symbol] = expected_return_up
+        elif symbol in hedging_assets:
+            expected_returns_dict[symbol] = 0.0  # Keep hedging assets at 0 expected return
+        else:
+            expected_returns_dict[symbol] = calculate_expected_return(beta)
+            logger.info(f"{symbol} - CAPM Expected Return: {expected_returns_dict[symbol]:.4%}")
+            
+    expected_returns = pd.Series(expected_returns_dict)
         
     logger.info("Calculating Covariance Matrix...")
     cov_matrix = calculate_covariance_matrix(adjusted_betas)
@@ -78,15 +81,16 @@ def main():
 
     # 5. Save Results to JSON
     import json
-    from datetime import datetime
+    from datetime import datetime, timezone
     from pathlib import Path
     
     data_dir = Path("data")
     data_dir.mkdir(exist_ok=True)
     
     results = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "settings": settings,
+        "asset_expected_returns": expected_returns.to_dict(),
         "weights": optimal_weights.to_dict(),
         "total_weight": float(total_weight),
         "expected_return": float(expected_portfolio_return)

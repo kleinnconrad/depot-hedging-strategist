@@ -8,9 +8,9 @@ predictor_url: "https://raw.githubusercontent.com/kleinnconrad/stock-predictor/m
 # The theoretical Return on Investment (ROI) assigned to stocks that the predictor flags as "UP_FINAL_BUY".
 # The prediction corresponds to a 10% ROI for the next 126 trading days (half a year).
 expected_return_up: 0.10
-# The theoretical ROI assigned to any stocks currently in the depot that were not explicitly recommended.
-# 0.00 assumes these stocks will trade flat over the holding period.
-expected_return_not_up: 0.00
+# CAPM Parameters for stocks currently in the depot that were not explicitly recommended.
+risk_free_rate: 0.02
+expected_market_return: 0.08
 
 # Optimization Constraints
 # The strict objective floor for the optimizer. The engine is mathematically constrained to yield an expected return of at least this value.
