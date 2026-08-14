@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.1.0...v0.1.1) (2026-08-14)
+
+
+### Bug Fixes
+
+* configure cash for beta in settings.yml and setting it to -0.025 to reflect inflation ([d7ca848](https://github.com/kleinnconrad/depot-hedging-strategist/commit/d7ca8480a114344bf5cc791bbf0f77ac0eee874f))
+
 ## 0.1.0 (2026-08-13)
 
 
