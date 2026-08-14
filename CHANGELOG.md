@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.1.1...v0.2.0) (2026-08-14)
+
+
+### Features
+
+* using CAPM for more realistic expected returns of the existing portfolio ([3b4eeb7](https://github.com/kleinnconrad/depot-hedging-strategist/commit/3b4eeb73faa249aa909dfd63dbd974efc2919c64))
+
 ## [0.1.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.1.0...v0.1.1) (2026-08-14)
 
 
