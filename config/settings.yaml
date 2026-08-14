@@ -29,3 +29,5 @@ market_variance: 0.04
 # The theoretical residual variance unique to individual stocks (unrelated to the market).
 # These populate the Single-Index Covariance Matrix: Beta^2 * market_variance + idiosyncratic_variance
 idiosyncratic_variance: 0.02
+# The beta assigned to CASH to reflect inflation risk (e.g., 2.5% p.a.).
+cash_beta: -0.025

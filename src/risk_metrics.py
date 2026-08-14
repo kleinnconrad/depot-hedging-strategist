@@ -25,7 +25,9 @@ def calculate_adjusted_beta(stock_symbol: str) -> tuple[float, float, str]:
     """
     try:
         if stock_symbol == "CASH":
-            return 0.0, 0.0, "NONE"
+            settings = load_settings()
+            cash_beta = settings.get("cash_beta", 0.025)
+            return cash_beta, 0.0, "NONE"
             
         ticker = yf.Ticker(stock_symbol)
         info = ticker.info
@@ -96,14 +98,11 @@ def calculate_covariance_matrix(adjusted_betas: dict) -> pd.DataFrame:
             if i == j:
                 # Diagonal: Variance of the stock.
                 if i == "CASH":
-                    cov_matrix.loc[i, j] = 0.0
+                    cov_matrix.loc[i, j] = (adjusted_betas[i] ** 2) * market_variance
                 else:
                     cov_matrix.loc[i, j] = (adjusted_betas[i] ** 2) * market_variance + idio_variance
             else:
                 # Off-diagonal: Covariance
-                if i == "CASH" or j == "CASH":
-                    cov_matrix.loc[i, j] = 0.0
-                else:
-                    cov_matrix.loc[i, j] = adjusted_betas[i] * adjusted_betas[j] * market_variance
+                cov_matrix.loc[i, j] = adjusted_betas[i] * adjusted_betas[j] * market_variance
                 
     return cov_matrix
