@@ -52,8 +52,9 @@ def main():
         
         if symbol in predicted_up_symbols:
             expected_returns_dict[symbol] = expected_return_up
-        elif symbol in hedging_assets:
-            expected_returns_dict[symbol] = 0.0  # Keep hedging assets at 0 expected return
+        elif symbol == "CASH":
+            expected_returns_dict[symbol] = settings.get("cash_beta", -0.025)
+            logger.info(f"{symbol} - Expected Return (Inflation Adjusted): {expected_returns_dict[symbol]:.4%}")
         else:
             expected_returns_dict[symbol] = calculate_expected_return(beta)
             logger.info(f"{symbol} - CAPM Expected Return: {expected_returns_dict[symbol]:.4%}")

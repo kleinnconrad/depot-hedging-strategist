@@ -11,7 +11,8 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 - [Algorithm and Logic](#algorithm-and-logic)
   - [1. Data Ingestion](#1-data-ingestion)
   - [2. Risk Metrics (Robust Beta)](#2-risk-metrics-robust-beta)
-  - [3. Portfolio Optimization](#3-portfolio-optimization)
+  - [3. Expected Returns (CAPM)](#3-expected-returns-capm)
+  - [4. Portfolio Optimization](#4-portfolio-optimization)
 
 ## Folder Structure
 
@@ -91,7 +92,13 @@ Once the adjusted Betas are computed, they are used to populate a **Single-Index
 - Diagonal (Variance): $\beta_i^2 \times \sigma_{market}^2 + \sigma_{idiosyncratic}^2$
 - Off-Diagonal (Covariance): $\beta_i \times \beta_j \times \sigma_{market}^2$
 
-### 3. Portfolio Optimization
+### 3. Expected Returns (CAPM)
+Before optimization, each asset is assigned an expected return based on its classification:
+- **ML Predicted Stocks:** Assets flagged as `UP_FINAL_BUY` by the external model receive a fixed, high expected return (e.g., $10\%$) as defined in the configuration.
+- **Existing Depot Assets:** For other stocks currently held in the portfolio, the **Capital Asset Pricing Model (CAPM)** is applied to calculate a realistic expected return using their previously computed Robust Beta, the risk-free rate ($R_f$), and the expected market return ($E(R_m)$). The formula used is: $E(R_i) = R_f + \beta_i (E(R_m) - R_f)$
+- **Cash / Hedging Assets:** The `CASH` position explicitly bypasses the CAPM formula. Instead, it is assigned a hardcoded negative expected return (e.g., $-2.5\%$, mapped from `cash_beta` in the settings) to accurately penalize the asset for inflation risk and loss of purchasing power over time.
+
+### 4. Portfolio Optimization
 The final phase employs the **Markowitz Mean-Variance** framework using SciPy's `SLSQP` (Sequential Least Squares Programming) algorithm.
 
 - **Objective Function:** Minimize the portfolio variance ($W^T \Sigma W$).
