@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.2.0...v0.2.1) (2026-08-17)
+
+
+### Bug Fixes
+
+* changed the override of expected_returns = 0 of the existing titles to capm usage. excluded cash from capm and assigned it a beta of -0.025 ([683406d](https://github.com/kleinnconrad/depot-hedging-strategist/commit/683406d097d3f86a1a8feda0b780247359bb2504))
+
 ## [0.2.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.1.1...v0.2.0) (2026-08-14)
 
 
