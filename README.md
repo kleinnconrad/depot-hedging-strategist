@@ -64,15 +64,34 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 The core logic of the hedging engine operates in three sequential phases: **Data Ingestion**, **Risk Metric Calculation**, and **Portfolio Optimization**.
 
 ```mermaid
-graph TD
-    A[ML Predictions JSON] --> C[Data Ingestion]
-    B[Current Depot JSON] --> C
-    D[settings.yaml] --> C
-    C --> E[Risk Metrics Computation]
-    E -->|Scholes-Williams & Blume's Beta| F[Covariance Matrix Generation]
-    F --> G[SciPy SLSQP Optimizer]
-    C -->|Expected Returns & Constraints| G
-    G --> H[Optimal Portfolio Weights]
+sequenceDiagram
+    participant Main
+    participant Ingestion
+    participant RiskMetrics
+    participant Optimizer
+    participant Storage
+
+    Main->>Ingestion: Fetch Predictions
+    Ingestion-->>Main: ML Predictions
+    Main->>Ingestion: Load Current Depot
+    Ingestion-->>Main: Current Portfolio
+    Main->>Ingestion: Load Settings
+    Ingestion-->>Main: Configuration
+    
+    loop Asset
+        Main->>RiskMetrics: Calculate Adjusted Beta
+        RiskMetrics-->>Main: Robust Beta and Market Cap
+        Main->>RiskMetrics: Calculate Expected Return
+        RiskMetrics-->>Main: Expected Return CAPM
+    end
+    
+    Main->>RiskMetrics: Calculate Covariance Matrix
+    RiskMetrics-->>Main: Single Index Covariance Matrix
+    
+    Main->>Optimizer: Optimize Portfolio
+    Optimizer-->>Main: Optimal Weights Array
+    
+    Main->>Storage: Save Results to JSON
 ```
 
 ### 1. Data Ingestion
