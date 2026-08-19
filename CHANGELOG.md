@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.2.1...v1.0.0) (2026-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* changed the approach from strictly optimizing for 5% ROI to maximizing the ROI while ensuring a min_return of 2% while assuming 1/2 standard deviation as worse case scenario
+
+### Features
+
+* changed the approach from strictly optimizing for 5% ROI to maximizing the ROI while ensuring a min_return of 2% while assuming 1/2 standard deviation as worse case scenario ([7b78866](https://github.com/kleinnconrad/depot-hedging-strategist/commit/7b78866afb5fa478049f7b4d0730afbcabdfd97e))
+
 ## [0.2.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.2.0...v0.2.1) (2026-08-17)
 
 
