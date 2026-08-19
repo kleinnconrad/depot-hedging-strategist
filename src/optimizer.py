@@ -8,12 +8,13 @@ logger = logging.getLogger(__name__)
 
 def optimize_portfolio(expected_returns: pd.Series, cov_matrix: pd.DataFrame, hedging_assets: list = None) -> pd.Series:
     """
-    Execute a Markowitz Mean-Variance optimization to find a portfolio allocation
-    that minimizes variance while guaranteeing an expected return (ROI) of at least 10%.
+    Execute an optimization to find a portfolio allocation that maximizes expected 
+    return while guaranteeing a minimum return under regular circumstances (risk-adjusted).
     """
     settings = load_settings()
     min_portfolio_return = settings.get("min_portfolio_return", 0.10)
     max_stock_weight = settings.get("max_stock_weight", 0.30)
+    z_score = settings.get("regular_circumstance_z_score", 1.0)
     
     if hedging_assets is None:
         hedging_assets = settings.get("hedging_assets", ["CASH"])
@@ -21,16 +22,24 @@ def optimize_portfolio(expected_returns: pd.Series, cov_matrix: pd.DataFrame, he
     num_assets = len(expected_returns)
     symbols = expected_returns.index.tolist()
     
-    # Objective function: Minimize portfolio variance
-    def portfolio_variance(weights):
-        return weights.T @ cov_matrix.values @ weights
+    # Objective function: Maximize portfolio return (Minimize negative return)
+    def negative_expected_return(weights):
+        return -(weights.T @ expected_returns.values)
         
+    # Risk-adjusted return constraint
+    def risk_adjusted_return_constraint(weights):
+        expected_return = weights.T @ expected_returns.values
+        variance = weights.T @ cov_matrix.values @ weights
+        # Ensure variance is not strictly negative due to floating point inaccuracies
+        std_dev = np.sqrt(max(variance, 0.0))
+        return expected_return - (z_score * std_dev) - min_portfolio_return
+
     # Constraints
     # 1. Sum of weights = 1.0
-    # 2. Expected portfolio return >= min_portfolio_return
+    # 2. Risk-adjusted return >= min_portfolio_return
     constraints = [
         {'type': 'eq', 'fun': lambda weights: np.sum(weights) - 1.0},
-        {'type': 'ineq', 'fun': lambda weights: weights.T @ expected_returns.values - min_portfolio_return}
+        {'type': 'ineq', 'fun': risk_adjusted_return_constraint}
     ]
     
     # Bounds
@@ -49,11 +58,12 @@ def optimize_portfolio(expected_returns: pd.Series, cov_matrix: pd.DataFrame, he
     # Run optimization
     logger.info("Starting SciPy optimization (SLSQP)...")
     result = minimize(
-        portfolio_variance,
+        negative_expected_return,
         initial_guess,
         method='SLSQP',
         bounds=bounds,
-        constraints=constraints
+        constraints=constraints,
+        options={'maxiter': 1000}
     )
     
     if not result.success:

@@ -14,7 +14,9 @@ expected_market_return: 0.08
 
 # Optimization Constraints
 # The strict objective floor for the optimizer. The engine is mathematically constrained to yield an expected return of at least this value.
-min_portfolio_return: 0.05
+min_portfolio_return: 0.02
+# The Z-score corresponding to "regular circumstances" for the risk-adjusted return constraint (e.g. 1.0 for 1 standard deviation).
+regular_circumstance_z_score: 0.5
 # The maximum percentage of the total portfolio that can be allocated to a single individual stock to force diversification.
 max_stock_weight: 0.30
 

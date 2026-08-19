@@ -2,7 +2,7 @@
 
 # Depot Hedging Strategist
 
-This repository contains a portfolio hedging engine. It ingests predictions from an external ML model and a current depot state, calculates advanced risk metrics (specifically robust Beta), and executes a Markowitz Mean-Variance optimization to find a portfolio allocation that minimizes variance while guaranteeing an expected return (ROI) of at least 5%.
+This repository contains a portfolio hedging engine. It ingests predictions from an external ML model and a current depot state, calculates advanced risk metrics (specifically robust Beta), and executes an optimization to find a portfolio allocation that maximizes expected return while guaranteeing a minimum return (e.g., 5%) under regular circumstances (risk-adjusted).
 
 ## Table of Contents
 
@@ -120,8 +120,8 @@ Before optimization, each asset is assigned an expected return based on its clas
 ### 4. Portfolio Optimization
 The final phase employs the **Markowitz Mean-Variance** framework using SciPy's `SLSQP` (Sequential Least Squares Programming) algorithm.
 
-- **Objective Function:** Minimize the portfolio variance ($W^T \Sigma W$).
+- **Objective Function:** Maximize the expected portfolio return ($W^T R$), which is implemented as minimizing the negative expected return.
 - **Constraints:**
   - The sum of all asset weights (including the `CASH` position) must equal exactly $1.0$ ($100\%$).
-  - The expected portfolio return ($W^T R$) must be greater than or equal to the `min_portfolio_return` threshold (e.g., $5\%$).
+  - **Risk-Adjusted Minimum Return:** The portfolio must guarantee the `min_portfolio_return` threshold (e.g., $5\%$) even under "regular circumstances", defined mathematically as subtracting the portfolio standard deviation multiplied by a configurable Z-score (e.g., $1.0$) from the expected return. Formula: $W^T R - (Z \times \sqrt{W^T \Sigma W}) \geq \text{min\_portfolio\_return}$.
 - **Bounds:** Individual stock allocations are capped by `max_stock_weight` to enforce diversification, while hedging assets (like `CASH`) can float up to $1.0$.
