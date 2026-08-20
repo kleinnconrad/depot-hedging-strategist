@@ -18,6 +18,8 @@ curl-cffi==0.16.0
     # via yfinance
 idna==3.18
     # via requests
+lxml==6.1.2
+    # via yfinance
 multitasking==0.0.13
     # via yfinance
 numpy==2.5.2
@@ -40,7 +42,7 @@ pycparser==3.0
     # via cffi
 python-dateutil==2.9.0.post0
     # via pandas
-python-dotenv==1.2.2
+python-dotenv==1.2.3
     # via -r requirements.in
 pytz==2026.3.post1
     # via yfinance
@@ -58,11 +60,9 @@ soupsieve==2.9.2
     # via beautifulsoup4
 typing-extensions==4.16.0
     # via beautifulsoup4
-tzdata==2026.3
-    # via pandas
 urllib3==2.7.0
     # via requests
 websockets==17.0.1
     # via yfinance
-yfinance==1.5.2
+yfinance==1.6.0
     # via -r requirements.in
