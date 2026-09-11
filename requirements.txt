@@ -22,7 +22,7 @@ lxml==6.1.2
     # via yfinance
 multitasking==0.0.13
     # via yfinance
-numpy==2.5.2
+numpy==2.5.3
     # via
     #   -r requirements.in
     #   pandas
