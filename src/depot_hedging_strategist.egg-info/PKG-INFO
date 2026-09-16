@@ -1,3 +1,17 @@
+Metadata-Version: 2.4
+Name: depot-hedging-strategist
+Version: 0.1.0
+Summary: Depot Hedging Strategist
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.31.0
+Requires-Dist: numpy>=2.5.3
+Requires-Dist: scipy>=1.18.1
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: yfinance>=1.7.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: python-dotenv>=1.2.3
+
 [![Run Hedging Engine](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml/badge.svg)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml)
 
 # Depot Hedging Strategist
