@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v1.1.0...v1.1.1) (2026-09-16)
+
+
+### Bug Fixes
+
+* locking transitive dependencies ([b843fd4](https://github.com/kleinnconrad/depot-hedging-strategist/commit/b843fd4fc41ed92d9372e968838129bfcd34d047))
+
 ## [1.1.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v1.0.0...v1.1.0) (2026-09-16)
 
 
