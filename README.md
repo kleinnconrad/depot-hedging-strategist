@@ -30,10 +30,10 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 
 ## Setup and Execution
 
-1. **Environment:** Execute local scripts using the Conda `base` environment to ensure consistency across local development setups. If you introduce new dependencies, add them to the `dependencies` list in `pyproject.toml`, then update your environment:
+1. **Environment:** Execute local scripts using the Conda `base` environment to ensure consistency across local development setups. We use `uv` for dependency management to ensure fully reproducible builds. If you introduce new dependencies, add them to the `dependencies` list in `pyproject.toml`, then update the lockfile and your environment:
    ```bash
-   conda install pip
-   pip install .
+   uv lock
+   uv sync
    ```
 
 2. **Configuration:** All configurable parameters (e.g., target returns, hedging assets, market variance) are located in `config/settings.yaml`. Do not hardcode these in the Python files.
