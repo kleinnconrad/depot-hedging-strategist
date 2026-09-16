@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v1.0.0...v1.1.0) (2026-09-16)
+
+
+### Features
+
+* switching to pyproject.toml for this project ([3ef2b37](https://github.com/kleinnconrad/depot-hedging-strategist/commit/3ef2b37ec48719ac6a88204dece83613e7f66a9e))
+
 ## [1.0.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v0.2.1...v1.0.0) (2026-08-19)
 
 
