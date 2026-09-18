@@ -1,7 +1,0 @@
-requests>=2.31.0
-numpy>=2.5.3
-scipy>=1.18.1
-pandas>=2.0.0
-yfinance>=1.7.0
-PyYAML>=6.0
-python-dotenv>=1.2.3
