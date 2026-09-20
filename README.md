@@ -24,7 +24,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
   - `settings.yaml`: Centralized configuration file for all user-defined parameters and thresholds.
 - `tests/`: Unit and integration tests.
 - `.github/workflows/`: GitHub Actions pipelines.
-- `main.py`: Entry point for the pipeline.
+  - `main.py`: Entry point for the pipeline.
 - `pyproject.toml`: Centralized project configuration, metadata, and dependencies.
 - `scripts/`: Standalone utilities (e.g. `update_gist.py` for exporting results).
 
@@ -45,7 +45,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
    ```
    Then simply run:
    ```bash
-   python main.py
+   python -m src.main
    ```
    When executed via GitHub Actions, the `CURRENT_DEPOT_JSON` environment variable is securely injected from the repository's GitHub Secrets.
 

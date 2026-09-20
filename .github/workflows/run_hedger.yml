@@ -28,7 +28,7 @@ jobs:
       - name: Run Hedging Engine
         env:
           CURRENT_DEPOT_JSON: ${{ secrets.CURRENT_DEPOT_JSON }}
-        run: uv run main.py
+        run: uv run python -m src.main
           
       - name: Export results to Gist
         env:

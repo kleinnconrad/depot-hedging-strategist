@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Scripts](#scripts)
+  - [`main.py`](#mainpy)
   - [`ingestion.py`](#ingestionpy)
   - [`risk_metrics.py`](#risk_metricspy)
   - [`optimizer.py`](#optimizerpy)
@@ -13,6 +14,10 @@
 This directory contains the core logic of the application. It consists of modules for data ingestion, risk metric calculation, and portfolio optimization.
 
 ## Scripts
+
+### `main.py`
+
+This is the main entry point for the portfolio hedging engine pipeline. It coordinates data ingestion, risk metrics calculation, and portfolio optimization, and saves the final optimal weights.
 
 ### `ingestion.py`
 
@@ -32,7 +37,7 @@ The following diagram illustrates the interactions between the modules:
 
 ```mermaid
 sequenceDiagram
-    participant Main as main.py
+    participant Main as src/main.py
     participant Ingestion as src/ingestion.py
     participant RiskMetrics as src/risk_metrics.py
     participant Optimizer as src/optimizer.py
