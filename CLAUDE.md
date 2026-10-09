@@ -38,4 +38,4 @@
 - Use specific exception handling (`try...except` blocks) instead of catching generic `Exception`s where possible, and provide informative error messages.
 
 ## 9. Version Control & Committing
-- You MUST NEVER run `git commit` or push changes to the repository by yourself unless the user explicitly asks you to do so. Prepare the changes locally and inform the user so they can review and commit them manually.
+- Never run `git commit` or `git push`, and never commit or push through GitHub tools or APIs, without the user's explicit approval of that specific commit. Prepare the changes locally, show the diff and the proposed commit message, and wait for approval. Approval of one commit does not extend to later commits.
