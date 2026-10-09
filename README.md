@@ -1,4 +1,5 @@
 [![Run Hedging Engine](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml/badge.svg)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/run_hedger.yml)
+[![CI](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kleinnconrad/depot-hedging-strategist/actions/workflows/ci.yml)
 
 # Depot Hedging Strategist
 
@@ -8,6 +9,7 @@ This repository contains a portfolio hedging engine. It ingests predictions from
 
 - [Folder Structure](#folder-structure)
 - [Setup and Execution](#setup-and-execution)
+- [Continuous Integration](#continuous-integration)
 - [Algorithm and Logic](#algorithm-and-logic)
   - [1. Data Ingestion](#1-data-ingestion)
   - [2. Risk Metrics (Robust Beta)](#2-risk-metrics-robust-beta)
@@ -22,8 +24,8 @@ This repository contains a portfolio hedging engine. It ingests predictions from
   - `optimizer.py`: Contains the SciPy optimization logic.
 - `config/`: Configuration and parameter files.
   - `settings.yaml`: Centralized configuration file for all user-defined parameters and thresholds.
-- `tests/`: Unit and integration tests.
-- `.github/workflows/`: GitHub Actions pipelines.
+- `tests/`: Offline tests (pytest).
+- `.github/workflows/`: GitHub Actions pipelines (hedging engine, pre-merge checks, Release Please).
   - `main.py`: Entry point for the pipeline.
 - `pyproject.toml`: Centralized project configuration, metadata, and dependencies.
 - `scripts/`: Standalone utilities (e.g. `update_gist.py` for exporting results).
@@ -55,6 +57,24 @@ This repository contains a portfolio hedging engine. It ingests predictions from
    - Generate a GitHub Personal Access Token (PAT) with the `gist` scope.
    - Add it as a repository secret named `GIST_TOKEN`.
    - The GitHub pipeline will execute `scripts/update_gist.py` to automatically create or update a Secret Gist named `Depot Hedging Strategist - Optimal Weights`.
+
+## Continuous Integration
+
+The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and on pushes to `main`. Development tools (pytest, ruff) are in the `dev` dependency group of `pyproject.toml`.
+
+| Job | Checks |
+|---|---|
+| `Lint` | `uv.lock` matches `pyproject.toml`; `ruff check`; `actionlint` (including `shellcheck`) on the workflow files |
+| `Tests` | The tests in `tests/` on Python 3.12 and 3.14. They currently verify that every module in `src/` imports with the locked dependencies. |
+| `Conventional Commits` | Every commit of a pull request follows the Conventional Commits format required by Release Please (pull requests only) |
+| `CI passed` | Succeeds only if all jobs above succeeded or were skipped; use it as the single required status check in the branch protection of `main` |
+
+Run the Python checks locally before pushing:
+```bash
+uv lock --check
+uv run ruff check .
+uv run pytest
+```
 
 ## Algorithm and Logic
 
