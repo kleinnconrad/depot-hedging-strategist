@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v1.1.1...v1.2.0) (2026-10-09)
+
+
+### Features
+
+* pre merge pipeline ([eb7df4e](https://github.com/kleinnconrad/depot-hedging-strategist/commit/eb7df4e248945db6cb5664f4085e2190ed6974c6))
+
 ## [1.1.1](https://github.com/kleinnconrad/depot-hedging-strategist/compare/v1.1.0...v1.1.1) (2026-09-16)
 
 
